@@ -1,0 +1,13 @@
+.btn-mode.active {
+    -fx-background-color: #00bbff;
+}
+
+.text-field-bin,
+.text-field-bininfo {
+    -fx-font-family: Consolas;
+    -fx-font-size: 15;
+}
+
+.text-field-bin:disabled {
+    -fx-opacity: 0.7;
+}
