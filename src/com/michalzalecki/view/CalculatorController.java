@@ -49,6 +49,12 @@ public class CalculatorController {
     public Button btnModOct;
     public Button btnModDec;
     public Button btnModHex;
+    public Button btnBitNot;
+    public Button btnBitAnd;
+    public Button btnBitOr;
+    public Button btnBitXor;
+    public Button btnBitLsh;
+    public Button btnBitRsh;
 
     private int mode = 10;
     private long prev;
@@ -63,6 +69,11 @@ public class CalculatorController {
     private static final int OP_MOD = 5;
     private static final int OP_ROOT = 6;
     private static final int OP_POW = 7;
+    private static final int OP_AND = 8;
+    private static final int OP_OR = 9;
+    private static final int OP_XOR = 10;
+    private static final int OP_LSH = 11;
+    private static final int OP_RSH = 12;
 
     private int entering = 0;
     private static final int EN_APPEND = 0;
@@ -344,7 +355,13 @@ public class CalculatorController {
     }
 
     public void actionBtnOpo(ActionEvent actionEvent) {
+        entering = EN_NEW;
         negate(textFieldResult.getText());
+    }
+
+    public void actionBtnBitNot(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        resultSet(~getLongResult());
     }
 
     public void actionBtnDiv(ActionEvent actionEvent) {
@@ -389,6 +406,36 @@ public class CalculatorController {
         btnPow.getStyleClass().add("active");
     }
 
+    public void actionBtnBitAnd(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_AND;
+        btnBitAnd.getStyleClass().add("active");
+    }
+
+    public void actionBtnBitOr(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_OR;
+        btnBitOr.getStyleClass().add("active");
+    }
+
+    public void actionBtnBitXor(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_XOR;
+        btnBitXor.getStyleClass().add("active");
+    }
+
+    public void actionBtnBitLsh(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_LSH;
+        btnBitLsh.getStyleClass().add("active");
+    }
+
+    public void actionBtnBitRsh(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_RSH;
+        btnBitRsh.getStyleClass().add("active");
+    }
+
     public void actionBtnModBin(ActionEvent actionEvent) {
         setMode(2);
     }
@@ -429,6 +476,21 @@ public class CalculatorController {
             case OP_ROOT:
                 resultSet((long)Math.pow(prev, 1.0/getLongResult()));
                 break;
+            case OP_AND:
+                resultSet(prev & getLongResult());
+                break;
+            case OP_OR:
+                resultSet(prev | getLongResult());
+                break;
+            case OP_XOR:
+                resultSet(prev ^ getLongResult());
+                break;
+            case OP_LSH:
+                resultSet(prev << getLongResult());
+                break;
+            case OP_RSH:
+                resultSet(prev >> getLongResult());
+                break;
             default:
         }
         entering = EN_NEW;
@@ -444,6 +506,11 @@ public class CalculatorController {
         btnMod.getStyleClass().remove("active");
         btnRoot.getStyleClass().remove("active");
         btnPow.getStyleClass().remove("active");
+        btnBitAnd.getStyleClass().remove("active");
+        btnBitOr.getStyleClass().remove("active");
+        btnBitXor.getStyleClass().remove("active");
+        btnBitLsh.getStyleClass().remove("active");
+        btnBitRsh.getStyleClass().remove("active");
     }
 
     private void newOperation() {
