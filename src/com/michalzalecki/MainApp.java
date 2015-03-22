@@ -29,6 +29,7 @@ public class MainApp extends Application {
         // Init stage
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Kalkulator programisty");
+        this.primaryStage.setResizable(false);
 
         initRoot();
         initCalculator();

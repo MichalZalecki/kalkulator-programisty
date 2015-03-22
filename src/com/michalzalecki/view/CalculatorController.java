@@ -160,8 +160,8 @@ public class CalculatorController {
         for (int i = 0; i < 32; i++)
             row2WithZeros += i % 4 == 0 ? " " + row2.charAt(i) : row2.charAt(i);
 
-        textFieldBinDigitsRow1.setText(row1WithZeros);
-        textFieldBinDigitsRow2.setText(row2WithZeros);
+        textFieldBinDigitsRow1.setText(row1WithZeros.trim());
+        textFieldBinDigitsRow2.setText(row2WithZeros.trim());
     }
 
     private void resultAddKey(String key) {
