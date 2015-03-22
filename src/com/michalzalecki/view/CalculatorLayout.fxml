@@ -46,7 +46,7 @@
             <Button fx:id="btnDigitD" mnemonicParsing="false" onAction="#actionBtnDigitD" text="D" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Button fx:id="btnDigitE" mnemonicParsing="false" onAction="#actionBtnDigitE" text="E" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <Button fx:id="btnDigitF" mnemonicParsing="false" onAction="#actionBtnDigitF" text="F" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <Button fx:id="btnDigit0" mnemonicParsing="false" onAction="#actionBtnDigit0" prefHeight="25.0" prefWidth="115.0" text="0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+            <Button fx:id="btnDigit0" mnemonicParsing="false" onAction="#actionBtnDigit0" prefHeight="25.0" prefWidth="85.0" text="0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="11" />
             <Button fx:id="btnDigit1" mnemonicParsing="false" onAction="#actionBtnDigit1" text="1" GridPane.columnIndex="2" GridPane.rowIndex="10" />
             <Button fx:id="btnDigit2" mnemonicParsing="false" onAction="#actionBtnDigit2" text="2" GridPane.columnIndex="3" GridPane.rowIndex="10" />
             <Button fx:id="btnDigit3" mnemonicParsing="false" onAction="#actionBtnDigit3" text="3" GridPane.columnIndex="4" GridPane.rowIndex="10" />
@@ -64,8 +64,8 @@
             <Button fx:id="btnMul" mnemonicParsing="false" onAction="#actionBtnMul" styleClass="btn-op" text="*" GridPane.columnIndex="5" GridPane.rowIndex="9" />
             <Button fx:id="btnSub" mnemonicParsing="false" onAction="#actionBtnSub" styleClass="btn-op" text="-" GridPane.columnIndex="5" GridPane.rowIndex="10" />
             <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#actionBtnAdd" styleClass="btn-op" text="+" GridPane.columnIndex="5" GridPane.rowIndex="11" />
-            <TextField fx:id="textFieldResult" alignment="CENTER_RIGHT" editable="false" text="0" GridPane.columnIndex="1" GridPane.columnSpan="6" />
-            <GridPane GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="5">
+            <TextField fx:id="textFieldResult" alignment="CENTER_RIGHT" editable="false" text="0" GridPane.columnSpan="7" />
+            <GridPane GridPane.columnSpan="7" GridPane.rowIndex="5">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -82,10 +82,10 @@
                   <Button fx:id="btnModHex" mnemonicParsing="false" onAction="#actionBtnModHex" styleClass="btn-mode" text="Hex (16)" GridPane.columnIndex="3" />
                </children>
             </GridPane>
-            <TextField alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bininfo" text="63                  47               32" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="2" />
-            <TextField fx:id="textFieldBinDigitsRow2" alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bin" text="0000 0000 0000 0000 0000 0000 0000 0000" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="3" />
-            <TextField alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bininfo" text="31                  15                0" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="4" />
-            <TextField fx:id="textFieldBinDigitsRow1" alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bin" text="0000 0000 0000 0000 0000 0000 0000 0000" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="1" />
+            <TextField alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bininfo" text="63                  47               32" GridPane.columnSpan="7" GridPane.rowIndex="2" />
+            <TextField fx:id="textFieldBinDigitsRow2" alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bin" text="0000 0000 0000 0000 0000 0000 0000 0000" GridPane.columnSpan="7" GridPane.rowIndex="3" />
+            <TextField alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bininfo" text="31                  15                0" GridPane.columnSpan="7" GridPane.rowIndex="4" />
+            <TextField fx:id="textFieldBinDigitsRow1" alignment="CENTER_RIGHT" disable="true" styleClass="text-field-bin" text="0000 0000 0000 0000 0000 0000 0000 0000" GridPane.columnSpan="7" GridPane.rowIndex="1" />
             <Button fx:id="btnPow" mnemonicParsing="false" onAction="#actionBtnPow" styleClass="btn-op" text="pow" GridPane.columnIndex="6" GridPane.rowIndex="9" />
             <Button fx:id="btnBitNot" mnemonicParsing="false" onAction="#actionBtnBitNot" text="Not" GridPane.rowIndex="6" />
             <Button fx:id="btnBitAnd" mnemonicParsing="false" onAction="#actionBtnBitAnd" styleClass="btn-op" text="And" GridPane.rowIndex="7" />
@@ -93,6 +93,7 @@
             <Button fx:id="btnBitXor" mnemonicParsing="false" onAction="#actionBtnBitXor" styleClass="btn-op" text="Xor" GridPane.rowIndex="9" />
             <Button fx:id="btnBitLsh" mnemonicParsing="false" onAction="#actionBtnBitLsh" styleClass="btn-op" text="Lsh" GridPane.rowIndex="10" />
             <Button fx:id="btnBitRsh" mnemonicParsing="false" onAction="#actionBtnBitRsh" styleClass="btn-op" text="Rsh" GridPane.rowIndex="11" />
+            <Button fx:id="btnComa" disable="true" mnemonicParsing="false" text="," GridPane.columnIndex="4" GridPane.rowIndex="11" />
          </children>
       </GridPane>
    </children>

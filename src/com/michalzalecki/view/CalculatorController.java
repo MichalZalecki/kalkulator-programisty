@@ -55,6 +55,7 @@ public class CalculatorController {
     public Button btnBitXor;
     public Button btnBitLsh;
     public Button btnBitRsh;
+    public Button btnComa;
 
     private int mode = 10;
     private long prev;
@@ -273,7 +274,7 @@ public class CalculatorController {
 
     public void actionBtnMemRead(ActionEvent actionEvent) {
         entering = EN_NEW;
-        resultSet(Long.toString(mem));
+        resultSet(mem);
     }
 
     public void actionBtnDigitA(ActionEvent actionEvent) {
