@@ -16,6 +16,7 @@ public class CalculatorController {
     public Button btnMemAdd;
     public Button btnMemSave;
     public Button btnMemClr;
+    public Button btnMemRead;
     public Button btnDigitA;
     public Button btnDigitB;
     public Button btnDigitC;
@@ -50,6 +51,7 @@ public class CalculatorController {
 
     private int mode = 10;
     private long prev;
+    private long mem = 0;
 
     private int operation = 0;
     private static final int OP_RESET = 0;
@@ -216,15 +218,24 @@ public class CalculatorController {
     }
 
     public void actionBtnMemSub(ActionEvent actionEvent) {
+        mem -= getLongResult();
     }
 
     public void actionBtnMemAdd(ActionEvent actionEvent) {
+        mem += getLongResult();
     }
 
     public void actionBtnMemSave(ActionEvent actionEvent) {
+        mem = getLongResult();
     }
 
     public void actionBtnMemClr(ActionEvent actionEvent) {
+        mem = 0;
+    }
+
+    public void actionBtnMemRead(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        resultSet(Long.toString(mem));
     }
 
     public void actionBtnDigitA(ActionEvent actionEvent) {
@@ -311,28 +322,24 @@ public class CalculatorController {
 
     public void actionBtnDiv(ActionEvent actionEvent) {
         newOperation();
-
         operation = OP_DIV;
         btnDiv.getStyleClass().add("active");
     }
 
     public void actionBtnMul(ActionEvent actionEvent) {
         newOperation();
-
         operation = OP_MUL;
         btnMul.getStyleClass().add("active");
     }
 
     public void actionBtnSub(ActionEvent actionEvent) {
         newOperation();
-
         operation = OP_SUB;
         btnSub.getStyleClass().add("active");
     }
 
     public void actionBtnAdd(ActionEvent actionEvent) {
         newOperation();
-
         operation = OP_ADD;
         btnAdd.getStyleClass().add("active");
     }

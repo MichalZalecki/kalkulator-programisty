@@ -37,7 +37,7 @@
             <Button fx:id="btnMemSub" mnemonicParsing="false" onAction="#actionBtnMemSub" text="M-" GridPane.columnIndex="5" GridPane.rowIndex="6" />
             <Button fx:id="btnMemAdd" mnemonicParsing="false" onAction="#actionBtnMemAdd" text="M+" GridPane.columnIndex="4" GridPane.rowIndex="6" />
             <Button fx:id="btnMemSave" mnemonicParsing="false" onAction="#actionBtnMemSave" text="MS" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <Button mnemonicParsing="false" text="MR" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <Button fx:id="btnMemRead" mnemonicParsing="false" onAction="#actionBtnMemRead" text="MR" GridPane.columnIndex="2" GridPane.rowIndex="6" />
             <Button fx:id="btnMemClr" mnemonicParsing="false" onAction="#actionBtnMemClr" text="MC" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Button fx:id="btnDigitA" mnemonicParsing="false" onAction="#actionBtnDigitA" text="A" GridPane.rowIndex="6" />
             <Button fx:id="btnDigitB" mnemonicParsing="false" onAction="#actionBtnDigitB" text="B" GridPane.rowIndex="7" />
