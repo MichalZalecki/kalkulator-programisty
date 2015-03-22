@@ -296,56 +296,51 @@ public class CalculatorController {
     }
 
     public void actionBtnCE(ActionEvent actionEvent) {
+        operation = OP_RESET;
+        resetOpButtons();
+        resultSet("0");
     }
 
     public void actionBtnC(ActionEvent actionEvent) {
+        resultSet("0");
     }
 
     public void actionBtnOpo(ActionEvent actionEvent) {
+        resultSet(Long.toString(-1 * getLongResult()));
     }
 
     public void actionBtnDiv(ActionEvent actionEvent) {
-        entering = EN_NEW;
-        prev = getLongResult();
+        newOperation();
 
         operation = OP_DIV;
-        resetOpButtons();
         btnDiv.getStyleClass().add("active");
     }
 
     public void actionBtnMul(ActionEvent actionEvent) {
-        entering = EN_NEW;
-        prev = getLongResult();
+        newOperation();
 
         operation = OP_MUL;
-        resetOpButtons();
         btnMul.getStyleClass().add("active");
     }
 
     public void actionBtnSub(ActionEvent actionEvent) {
-        entering = EN_NEW;
-        prev = getLongResult();
+        newOperation();
 
         operation = OP_SUB;
-        resetOpButtons();
         btnSub.getStyleClass().add("active");
     }
 
     public void actionBtnAdd(ActionEvent actionEvent) {
-        entering = EN_NEW;
-        prev = getLongResult();
+        newOperation();
 
         operation = OP_ADD;
-        resetOpButtons();
         btnAdd.getStyleClass().add("active");
     }
 
     public void actionBtnMod(ActionEvent actionEvent) {
-        entering = EN_NEW;
-        prev = getLongResult();
+        newOperation();
 
         operation = OP_MOD;
-        resetOpButtons();
         btnMod.getStyleClass().add("active");
     }
 
@@ -398,5 +393,9 @@ public class CalculatorController {
         btnMod.getStyleClass().remove("active");
     }
 
-
+    private void newOperation() {
+        entering = EN_NEW;
+        prev = getLongResult();
+        resetOpButtons();
+    }
 }
