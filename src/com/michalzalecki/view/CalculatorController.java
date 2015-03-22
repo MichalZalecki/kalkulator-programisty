@@ -11,7 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 public class CalculatorController {
     public Button btnResult;
     public Button btnMod;
-    public Button btnSqrt;
+    public Button btnRoot;
+    public Button btnPow;
     public Button btnMemSub;
     public Button btnMemAdd;
     public Button btnMemSave;
@@ -60,6 +61,8 @@ public class CalculatorController {
     private static final int OP_MUL = 3;
     private static final int OP_DIV = 4;
     private static final int OP_MOD = 5;
+    private static final int OP_ROOT = 6;
+    private static final int OP_POW = 7;
 
     private int entering = 0;
     private static final int EN_APPEND = 0;
@@ -71,7 +74,7 @@ public class CalculatorController {
 
     private void resultSet(String result) {
         String finalResult;
-        if (result.length() == 0)
+        if (result.length() == 0 || result.equals("-"))
             finalResult = "0";
         else
             finalResult = result.toUpperCase();
@@ -80,8 +83,48 @@ public class CalculatorController {
         setRows();
     }
 
+    private void resultSet(long n) {
+        String result = null;
+        boolean isNegative = n < 0;
+        // Use abs to avoid leading ffff... after convert
+        n = Math.abs(n);
+        switch (mode) {
+            case 2:
+                result = Long.toBinaryString(n);
+                break;
+            case 8:
+                result = Long.toOctalString(n);
+                break;
+            case 10:
+                result = Long.toString(n);
+                break;
+            case 16:
+                result = Long.toHexString(n);
+                break;
+            default:
+                throw new RuntimeException("Nieobsługiwany mode (" + mode + ")");
+        }
+        if (isNegative)
+            negate(result);
+        else
+            resultSet(result);
+    }
+
+    // negate number with "-" instead of leading "ffff..."
+    private void negate(String current) {
+        if (current.indexOf("-") == 0)
+            resultSet(current.substring(1, current.length()));
+        else if (!current.equals("0"))
+            resultSet("-" + current);
+    }
+
+    // Get result with appropriate mode
+    private long getLongResult(int from) {
+        return Long.parseLong(textFieldResult.getText(), from);
+    }
+    // Use default mode
     private long getLongResult() {
-        return Long.parseLong(textFieldResult.getText(), mode);
+        return getLongResult(mode);
     }
 
     private void setRows() {
@@ -123,7 +166,40 @@ public class CalculatorController {
         btnModOct.getStyleClass().remove("active");
         btnModDec.getStyleClass().remove("active");
         btnModHex.getStyleClass().remove("active");
-        // Enable all digits
+
+        switch (newMode) {
+            case 2:
+                btnModBin.getStyleClass().add("active");
+                unlockBinDigitButtons();
+                break;
+            case 8:
+                btnModOct.getStyleClass().add("active");
+                unlockOctDigitButtons();
+                break;
+            case 10:
+                btnModDec.getStyleClass().add("active");
+                unlockDecDigitButtons();
+                break;
+            case 16:
+                unlockHexDigitButtons();
+                btnModHex.getStyleClass().add("active");
+                break;
+            default:
+                throw new RuntimeException("Nieobsługiwany mode (" + newMode + ")");
+        }
+        int oldMode = mode;
+        // set mode
+        mode = newMode;
+        // convert result from oldMode to the new one
+        convertResult(oldMode);
+    }
+
+    private void convertResult(int from) {
+        resultSet(getLongResult(from));
+    }
+
+    // Locking digits
+    private void unlockHexDigitButtons() {
         btnDigitA.setDisable(false);
         btnDigitB.setDisable(false);
         btnDigitC.setDisable(false);
@@ -140,81 +216,32 @@ public class CalculatorController {
         btnDigit7.setDisable(false);
         btnDigit8.setDisable(false);
         btnDigit9.setDisable(false);
-
-        switch (newMode) {
-            case 2:
-                btnModBin.getStyleClass().add("active");
-                btnDigitA.setDisable(true);
-                btnDigitB.setDisable(true);
-                btnDigitC.setDisable(true);
-                btnDigitD.setDisable(true);
-                btnDigitE.setDisable(true);
-                btnDigitF.setDisable(true);
-                btnDigit2.setDisable(true);
-                btnDigit3.setDisable(true);
-                btnDigit4.setDisable(true);
-                btnDigit5.setDisable(true);
-                btnDigit6.setDisable(true);
-                btnDigit7.setDisable(true);
-                btnDigit8.setDisable(true);
-                btnDigit9.setDisable(true);
-                break;
-            case 8:
-                btnModOct.getStyleClass().add("active");
-                btnDigitA.setDisable(true);
-                btnDigitB.setDisable(true);
-                btnDigitC.setDisable(true);
-                btnDigitD.setDisable(true);
-                btnDigitE.setDisable(true);
-                btnDigitF.setDisable(true);
-                btnDigit8.setDisable(true);
-                btnDigit9.setDisable(true);
-                break;
-            case 10:
-                btnModDec.getStyleClass().add("active");
-                btnDigitA.setDisable(true);
-                btnDigitB.setDisable(true);
-                btnDigitC.setDisable(true);
-                btnDigitD.setDisable(true);
-                btnDigitE.setDisable(true);
-                btnDigitF.setDisable(true);
-                break;
-            case 16:
-                btnModHex.getStyleClass().add("active");
-                break;
-            default:
-                throw new RuntimeException("Nieobsługiwany mode (" + newMode + ")");
-        }
-        int oldMode = mode;
-        // set mode
-        mode = newMode;
-        // convert result from oldMode to the new one
-        convertResult(oldMode);
     }
 
-    private void convertResult(int from) {
-        long n = Long.parseLong(textFieldResult.getText(), from);
-        String result = null;
-        switch (mode) {
-            case 2:
-                result = Long.toBinaryString(n);
-                break;
-            case 8:
-                result = Long.toOctalString(n);
-                break;
-            case 10:
-                result = Long.toString(n);
-                break;
-            case 16:
-                result = Long.toHexString(n);
-                break;
-            default:
-                throw new RuntimeException("Nieobsługiwany mode (" + mode + ")");
-        }
-        resultSet(result);
+    private void unlockDecDigitButtons() {
+        unlockHexDigitButtons();
+        btnDigitA.setDisable(true);
+        btnDigitB.setDisable(true);
+        btnDigitC.setDisable(true);
+        btnDigitD.setDisable(true);
+        btnDigitE.setDisable(true);
+        btnDigitF.setDisable(true);
     }
 
-    public void actionBtnSqrt(ActionEvent actionEvent) {
+    private void unlockOctDigitButtons() {
+        unlockDecDigitButtons();
+        btnDigit8.setDisable(true);
+        btnDigit9.setDisable(true);
+    }
+
+    private void unlockBinDigitButtons() {
+        unlockOctDigitButtons();
+        btnDigit2.setDisable(true);
+        btnDigit3.setDisable(true);
+        btnDigit4.setDisable(true);
+        btnDigit5.setDisable(true);
+        btnDigit6.setDisable(true);
+        btnDigit7.setDisable(true);
     }
 
     public void actionBtnMemSub(ActionEvent actionEvent) {
@@ -317,7 +344,7 @@ public class CalculatorController {
     }
 
     public void actionBtnOpo(ActionEvent actionEvent) {
-        resultSet(Long.toString(-1 * getLongResult()));
+        negate(textFieldResult.getText());
     }
 
     public void actionBtnDiv(ActionEvent actionEvent) {
@@ -346,9 +373,20 @@ public class CalculatorController {
 
     public void actionBtnMod(ActionEvent actionEvent) {
         newOperation();
-
         operation = OP_MOD;
         btnMod.getStyleClass().add("active");
+    }
+
+    public void actionBtnRoot(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_ROOT;
+        btnRoot.getStyleClass().add("active");
+    }
+
+    public void actionBtnPow(ActionEvent actionEvent) {
+        newOperation();
+        operation = OP_POW;
+        btnPow.getStyleClass().add("active");
     }
 
     public void actionBtnModBin(ActionEvent actionEvent) {
@@ -371,19 +409,25 @@ public class CalculatorController {
     public void actionBtnResult(ActionEvent actionEvent) {
         switch (operation) {
             case OP_ADD:
-                resultSet(Long.toString(prev + getLongResult()));
+                resultSet(prev + getLongResult());
                 break;
             case OP_SUB:
-                resultSet(Long.toString(prev - getLongResult()));
+                resultSet(prev - getLongResult());
                 break;
             case OP_MUL:
-                resultSet(Long.toString(prev * getLongResult()));
+                resultSet(prev * getLongResult());
                 break;
             case OP_DIV:
-                resultSet(Long.toString(prev / getLongResult()));
+                resultSet(prev / getLongResult());
                 break;
             case OP_MOD:
-                resultSet(Long.toString(prev % getLongResult()));
+                resultSet(prev % getLongResult());
+                break;
+            case OP_POW:
+                resultSet((long)Math.pow(prev, getLongResult()));
+                break;
+            case OP_ROOT:
+                resultSet((long)Math.pow(prev, 1.0/getLongResult()));
                 break;
             default:
         }
@@ -398,6 +442,8 @@ public class CalculatorController {
         btnDiv.getStyleClass().remove("active");
         btnMul.getStyleClass().remove("active");
         btnMod.getStyleClass().remove("active");
+        btnRoot.getStyleClass().remove("active");
+        btnPow.getStyleClass().remove("active");
     }
 
     private void newOperation() {
