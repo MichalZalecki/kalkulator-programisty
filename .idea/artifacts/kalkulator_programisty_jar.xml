@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="kalkulator-programisty:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/kalkulator_programisty_jar</output-path>
+    <root id="archive" name="kalkulator-programisty.jar">
+      <element id="module-output" name="kalkulator-programisty" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/commons-lang3-3.3.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
