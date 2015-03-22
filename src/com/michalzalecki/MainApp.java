@@ -1,9 +1,14 @@
 package com.michalzalecki;
 
+import com.michalzalecki.view.CalculatorController;
+import com.michalzalecki.view.RootController;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -17,7 +22,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private AnchorPane calculatorLayout;
+    private Scene rootScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -33,7 +38,8 @@ public class MainApp extends Application {
         try {
             FXMLLoader rootLoader = new FXMLLoader(getClass().getResource("view/RootLayout.fxml"));
             this.rootLayout = rootLoader.load();
-            this.primaryStage.setScene(new Scene(this.rootLayout));
+            this.rootScene = new Scene(this.rootLayout);
+            this.primaryStage.setScene(this.rootScene);
             this.primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,8 +49,10 @@ public class MainApp extends Application {
     private void initCalculator() {
         try {
             FXMLLoader calculatorLoader = new FXMLLoader(getClass().getResource("view/CalculatorLayout.fxml"));
-            this.calculatorLayout = calculatorLoader.load();
-            this.rootLayout.setCenter(this.calculatorLayout);
+            AnchorPane calculatorLayout = calculatorLoader.load();
+            CalculatorController calculatorController = calculatorLoader.getController();
+            calculatorController.setRootScene(this.rootScene);
+            this.rootLayout.setCenter(calculatorLayout);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,9 +1,14 @@
 package com.michalzalecki.view;
 
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Locale;
 
 /**
  * Created by Michal on 2015-03-21.
@@ -79,6 +84,8 @@ public class CalculatorController {
     private int entering = 0;
     private static final int EN_APPEND = 0;
     private static final int EN_NEW = 1;
+
+    private Scene rootScene;
 
     public void initialize() {
         setMode(10);
@@ -277,68 +284,73 @@ public class CalculatorController {
         resultSet(mem);
     }
 
+    private boolean isKayAllowed(String k) {
+        long n = Long.parseLong(k, 16);
+        return n < mode;
+    }
+
     public void actionBtnDigitA(ActionEvent actionEvent) {
-        resultAddKey("A");
+        if (isKayAllowed("A")) resultAddKey("A");
     }
 
     public void actionBtnDigitB(ActionEvent actionEvent) {
-        resultAddKey("B");
+        if (isKayAllowed("B")) resultAddKey("B");
     }
 
     public void actionBtnDigitC(ActionEvent actionEvent) {
-        resultAddKey("C");
+        if (isKayAllowed("C")) resultAddKey("C");
     }
 
     public void actionBtnDigitD(ActionEvent actionEvent) {
-        resultAddKey("D");
+        if (isKayAllowed("D")) resultAddKey("D");
     }
 
     public void actionBtnDigitE(ActionEvent actionEvent) {
-        resultAddKey("E");
+        if (isKayAllowed("E")) resultAddKey("E");
     }
 
     public void actionBtnDigitF(ActionEvent actionEvent) {
-        resultAddKey("F");
+        if (isKayAllowed("F")) resultAddKey("F");
     }
 
     public void actionBtnDigit0(ActionEvent actionEvent) {
-        resultAddKey("0");
+        if (isKayAllowed("0")) resultAddKey("0");
     }
 
     public void actionBtnDigit1(ActionEvent actionEvent) {
-        resultAddKey("1");
+        if (isKayAllowed("1")) resultAddKey("1");
     }
 
     public void actionBtnDigit2(ActionEvent actionEvent) {
-        resultAddKey("2");
+        if (isKayAllowed("2")) resultAddKey("2");
     }
 
     public void actionBtnDigit3(ActionEvent actionEvent) {
-        resultAddKey("3");
+        if (isKayAllowed("3")) resultAddKey("3");
     }
 
     public void actionBtnDigit6(ActionEvent actionEvent) {
-        resultAddKey("6");
+        if (isKayAllowed("6")) resultAddKey("6");
     }
 
     public void actionBtnDigit5(ActionEvent actionEvent) {
-        resultAddKey("5");
+        if (isKayAllowed("5")) resultAddKey("5");
     }
 
     public void actionBtnDigit4(ActionEvent actionEvent) {
-        resultAddKey("4");
+        if (isKayAllowed("4")) resultAddKey("4");
     }
 
     public void actionBtnDigit7(ActionEvent actionEvent) {
-        resultAddKey("7");
+        if (isKayAllowed("7")) resultAddKey("7");
     }
 
     public void actionBtnDigit8(ActionEvent actionEvent) {
-        resultAddKey("8");
+        if (isKayAllowed("8")) resultAddKey("8");
     }
 
     public void actionBtnDigit9(ActionEvent actionEvent) {
-        resultAddKey("9");
+        if (isKayAllowed("9")) resultAddKey("9");
     }
 
     public void actionBtnBack(ActionEvent actionEvent) {
@@ -518,5 +530,61 @@ public class CalculatorController {
         entering = EN_NEW;
         prev = getLongResult();
         resetOpButtons();
+    }
+
+    public void setRootScene(Scene scene) {
+        this.rootScene = scene;
+        this.rootScene.setOnKeyPressed((KeyEvent e) -> {
+            KeyCode keyCode = e.getCode();
+
+//            System.out.println(keyCode);
+
+            if (keyCode == KeyCode.DIGIT0 || keyCode == KeyCode.NUMPAD0)
+                actionBtnDigit0(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT1 || keyCode == KeyCode.NUMPAD1)
+            actionBtnDigit1(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT2 || keyCode == KeyCode.NUMPAD2)
+                actionBtnDigit2(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT3 || keyCode == KeyCode.NUMPAD3)
+                actionBtnDigit3(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT4 || keyCode == KeyCode.NUMPAD4)
+                actionBtnDigit4(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT5 || keyCode == KeyCode.NUMPAD5)
+                actionBtnDigit5(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT6 || keyCode == KeyCode.NUMPAD6)
+                actionBtnDigit6(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT7 || keyCode == KeyCode.NUMPAD7)
+                actionBtnDigit7(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT8 || keyCode == KeyCode.NUMPAD8)
+                actionBtnDigit8(new ActionEvent());
+            else if (keyCode == KeyCode.DIGIT9 || keyCode == KeyCode.NUMPAD9)
+                actionBtnDigit9(new ActionEvent());
+            else if (keyCode == KeyCode.A)
+                actionBtnDigitA(new ActionEvent());
+            else if (keyCode == KeyCode.B)
+                actionBtnDigitB(new ActionEvent());
+            else if (keyCode == KeyCode.C)
+                actionBtnDigitC(new ActionEvent());
+            else if (keyCode == KeyCode.D)
+                actionBtnDigitD(new ActionEvent());
+            else if (keyCode == KeyCode.E)
+                actionBtnDigitE(new ActionEvent());
+            else if (keyCode == KeyCode.F)
+                actionBtnDigitF(new ActionEvent());
+            else if (keyCode == KeyCode.BACK_SPACE)
+                resultSubKey();
+            else if (keyCode == KeyCode.DELETE)
+                actionBtnCE(new ActionEvent());
+            else if (keyCode == KeyCode.MULTIPLY)
+                actionBtnMul(new ActionEvent());
+            else if (keyCode == KeyCode.DIVIDE)
+                actionBtnDiv(new ActionEvent());
+            else if (keyCode == KeyCode.ADD)
+                actionBtnAdd(new ActionEvent());
+            else if (keyCode == KeyCode.SUBTRACT || keyCode == KeyCode.MINUS)
+                actionBtnSub(new ActionEvent());
+            else if (keyCode == KeyCode.ENTER || keyCode == KeyCode.EQUALS)
+                actionBtnResult(new ActionEvent());
+        });
     }
 }
