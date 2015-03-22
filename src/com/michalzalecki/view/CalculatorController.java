@@ -1,9 +1,7 @@
 package com.michalzalecki.view;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class CalculatorController {
     public Button btnResult;
-    public Button btnFlip;
     public Button btnMod;
     public Button btnSqrt;
     public Button btnMemSub;
@@ -39,11 +36,10 @@ public class CalculatorController {
     public Button btnCE;
     public Button btnC;
     public Button btnOpo;
-    public Button btnDivi;
+    public Button btnDiv;
     public Button btnMul;
     public Button btnSub;
     public Button btnAdd;
-    public Button btnComa;
     public TextField textFieldResult;
     public TextField textFieldBinDigitsRow2;
     public TextField textFieldBinDigitsRow1;
@@ -53,6 +49,19 @@ public class CalculatorController {
     public Button btnModHex;
 
     private int mode = 10;
+    private long prev;
+
+    private int operation = 0;
+    private static final int OP_RESET = 0;
+    private static final int OP_ADD = 1;
+    private static final int OP_SUB = 2;
+    private static final int OP_MUL = 3;
+    private static final int OP_DIV = 4;
+    private static final int OP_MOD = 5;
+
+    private int entering = 0;
+    private static final int EN_APPEND = 0;
+    private static final int EN_NEW = 1;
 
     public void initialize() {
         setMode(10);
@@ -93,10 +102,12 @@ public class CalculatorController {
 
     private void resultAddKey(String key) {
         String current = textFieldResult.getText();
-        if (current.equals("0"))
+        if (current.equals("0") || entering == EN_NEW) {
             resultSet(key);
-        else
+            entering = EN_APPEND;
+        } else {
             resultSet(current + key);
+        }
     }
 
     private void resultSubKey() {
@@ -201,12 +212,6 @@ public class CalculatorController {
         resultSet(result);
     }
 
-    public void actionBtnFlip(ActionEvent actionEvent) {
-    }
-
-    public void actionBtnMod(ActionEvent actionEvent) {
-    }
-
     public void actionBtnSqrt(ActionEvent actionEvent) {
     }
 
@@ -299,20 +304,49 @@ public class CalculatorController {
     public void actionBtnOpo(ActionEvent actionEvent) {
     }
 
-    public void actionBtnDivi(ActionEvent actionEvent) {
+    public void actionBtnDiv(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        prev = getLongResult();
+
+        operation = OP_DIV;
+        resetOpButtons();
+        btnDiv.getStyleClass().add("active");
     }
 
     public void actionBtnMul(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        prev = getLongResult();
+
+        operation = OP_MUL;
+        resetOpButtons();
+        btnMul.getStyleClass().add("active");
     }
 
     public void actionBtnSub(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        prev = getLongResult();
+
+        operation = OP_SUB;
+        resetOpButtons();
+        btnSub.getStyleClass().add("active");
     }
 
     public void actionBtnAdd(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        prev = getLongResult();
+
+        operation = OP_ADD;
+        resetOpButtons();
+        btnAdd.getStyleClass().add("active");
     }
 
-    public void actionBtnComa(ActionEvent actionEvent) {
+    public void actionBtnMod(ActionEvent actionEvent) {
+        entering = EN_NEW;
+        prev = getLongResult();
 
+        operation = OP_MOD;
+        resetOpButtons();
+        btnMod.getStyleClass().add("active");
     }
 
     public void actionBtnModBin(ActionEvent actionEvent) {
@@ -331,7 +365,38 @@ public class CalculatorController {
         setMode(16);
     }
 
-    public void resultUpdatedByUser(Event event) {
-        resultSet(textFieldResult.getText());
+
+    public void actionBtnResult(ActionEvent actionEvent) {
+        switch (operation) {
+            case OP_ADD:
+                resultSet(Long.toString(prev + getLongResult()));
+                break;
+            case OP_SUB:
+                resultSet(Long.toString(prev - getLongResult()));
+                break;
+            case OP_MUL:
+                resultSet(Long.toString(prev * getLongResult()));
+                break;
+            case OP_DIV:
+                resultSet(Long.toString(prev / getLongResult()));
+                break;
+            case OP_MOD:
+                resultSet(Long.toString(prev % getLongResult()));
+                break;
+            default:
+        }
+        entering = EN_NEW;
+        operation = OP_RESET;
+        resetOpButtons();
     }
+
+    private void resetOpButtons () {
+        btnAdd.getStyleClass().remove("active");
+        btnSub.getStyleClass().remove("active");
+        btnDiv.getStyleClass().remove("active");
+        btnMul.getStyleClass().remove("active");
+        btnMod.getStyleClass().remove("active");
+    }
+
+
 }
